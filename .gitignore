@@ -1,0 +1,7 @@
+vendor/
+web/users/
+web/common/
+web/bundles/
+app/config/parameters.yml
+var/cache/
+var/logs/

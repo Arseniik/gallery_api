@@ -1,0 +1,27 @@
+AppBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nickname
+    properties:
+        nickname:
+            - NotBlank: ~
+            - Type: string
+        mail:
+            - NotBlank: ~
+            - Email:
+                message: L'email renseigné n'est pas correct
+        plainPassword:
+            - Type: string
+            - Length:
+                min: 6
+                minMessage: 'Le mot de passe doit contenir au moins 6 caractères'
+            - NotBlank: { groups: [New, FullUpdate] }
+
+AppBundle\Entity\Credentials:
+    properties:
+        login:
+            - NotBlank: ~
+            - Type: string
+        password:
+            - NotBlank: ~
+            - Type: string
+

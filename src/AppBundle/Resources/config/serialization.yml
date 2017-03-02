@@ -1,0 +1,19 @@
+AppBundle\Entity\User:
+    attributes:
+        id:
+            groups: ['user', 'auth-token']
+        nickname:
+            groups: ['user', 'auth-token']
+        mail: 
+            groups: ['user', 'auth-token']
+
+AppBundle\Entity\Credentials:
+    attributes:
+        id:
+            groups: ['auth-token']
+        value:
+            groups: ['auth-token']
+        createdAt:
+            groups: ['auth-token']
+        user:
+            groups: ['auth-token']
