@@ -15,9 +15,7 @@ class CacheControllerListener
 
         $controllerObject = $controller[0];
         if ($controllerObject instanceof Cacheable) {
-            echo "FIRST IF" . PHP_EOL;
             if ($controllerObject->isNotModified($controllerObject->getLastModifiedDate(), $event->getRequest())) {
-                echo "SECOND IF" . PHP_EOL;
                 $controller[1] = 'getLastModifiedResponse';
             }
             $event->setController($controller);

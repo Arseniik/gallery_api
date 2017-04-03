@@ -34,14 +34,12 @@ class GalleryRepository
         $gallery     = new Gallery();
         $gallery->setName($galleryName);
         $gallery->setIsCommonGallery($isCommonGallery);
-        echo "zofiodfjsis";
 
         if ($this->filesystem->exists($galleryPath)) {
             $this->finder->files()
                 ->in($galleryPath)
                 ->ignoreDotFiles(true);
 
-            var_dump($gallery);
             foreach ($this->finder as $file) {
                 $picture = new Picture();
                 $picture->setName($file->getFilename());
@@ -78,6 +76,11 @@ class GalleryRepository
 
                 $galleryObject->setIsCommonGallery($isCommonGallery);
                 $galleryObject->setName($pathArray[$pathCount - 1]);
+
+                $lastUpdate = new \DateTime();
+                $lastUpdate->setTimestamp($gallery->getMTime());
+
+                $galleryObject->setLastUpdatedDate($lastUpdate);
 
                 $galleries[] = $galleryObject;
             }

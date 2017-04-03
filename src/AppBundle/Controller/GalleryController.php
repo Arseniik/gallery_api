@@ -47,12 +47,24 @@ class GalleryController extends RestController implements Cacheable
      **/
     public function getGalleriesAction (Request $request)
     {
-        $user           = $this->getUser();
-        $galleryRepository = $this->get('gallery.repository');
+        $user                = $this->getUser();
+        $galleryRepository   = $this->get('gallery.repository');
+        $galleries           = $galleryRepository->getAllUserGalleries(strtolower($user->getNickname()));
+        $galleriesLastUpdate = new \DateTime('now');
+        $timestampLastUpdate = $galleriesLastUpdate->getTimestamp();
 
-        $galleries      = $galleryRepository->getAllUserGalleries(strtolower($user->getNickname()));
+        foreach ($galleries as $gallery) {
+            $galleryLastUpdate = $gallery->getLastUpdatedDate()->getTimestamp();
+            if ($timestampLastUpdate > $galleryLastUpdate) {
+                $galleriesLastUpdate->setTimestamp($galleryLastUpdate);
+            }
+        }
 
-        return new JsonResponse($galleries, Response::HTTP_OK);
+        $header = [
+            'Last-Modified' => $galleriesLastUpdate->format('D, d M Y H:i:s') . ' GMT'
+        ];
+
+        return new JsonResponse($galleries, Response::HTTP_OK, $header);
     }
 
     /**
@@ -69,9 +81,13 @@ class GalleryController extends RestController implements Cacheable
             $request->get('isCommon')
         );
 
-        $test = $galleryRepository->getLastModified($user);
+        $lastModified = $galleryRepository->getLastModified($user);
 
-        return new JsonResponse($gallery, Response::HTTP_OK);
+        $header = [
+            'Last-Modified' => $galleriesLastUpdate->format('D, d M Y H:i:s') . ' GMT'
+        ];
+
+        return new JsonResponse($gallery, Response::HTTP_OK, $header);
     }
 
     public function getLastModifiedDate()

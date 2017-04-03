@@ -8,6 +8,7 @@ class Gallery
     protected $name;
     protected $pictures;
     protected $isCommonGallery;
+    protected $lastUpdatedDate;
 
     public function __construct()
     {
@@ -42,6 +43,16 @@ class Gallery
     public function setIsCommonGallery($isCommonGallery)
     {
         $this->isCommonGallery = $isCommonGallery;
+    }
+
+    public function getLastUpdatedDate()
+    {
+        return $this->lastUpdatedDate;
+    }
+
+    public function setLastUpdatedDate($date)
+    {
+        $this->lastUpdatedDate = $date;
     }
 }
 ?>
